@@ -1,2 +1,2 @@
 # LifeDWH
- Data warehouse for Life 
+ Data warehouse solution for Life 
