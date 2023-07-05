@@ -1,0 +1,94 @@
+﻿gmina_id;gmina_name;gmina_powiat_name;gmina_region_name;gmina_stat_code;gmina_pid;gmina_sid;gmina_attrib1;gmina_attrib2
+G1;Aleksandrów;Powiat piotrkowski;łódzkie;51011710012;5.1.10.17.10.01.2;Aleksandrów;3221;2464
+G2;Andrespol;Powiat łódzki wschodni;łódzkie;51011506022;5.1.10.15.06.02.2;Andrespol;11058;2190
+G3;Belsk Duży;Powiat grójecki;mazowieckie;71427306012;5.1.14.30.06.01.2;Belsk Duzy;6833;2105
+G4;Będków;Powiat tomaszowski;łódzkie;51011716022;5.1.10.17.16.02.2;Bedków;3741;2288
+G5;Białaczów;Powiat opoczyński;łódzkie;51011707012;5.1.10.17.07.01.2;Bialaczów;6214;2469
+G6;Białobrzegi;Powiat białobrzeski;mazowieckie;71422701013;5.1.14.27.01.01.3;Bialobrzegi;10228;328
+G7;Bliżyn;Powiat skarżyski;świętokrzyskie;71427306022;5.3.26.52.10.02.2;Blizyn;8865;2604
+G8;Błędów;Powiat grójecki;mazowieckie;52615210022;5.1.14.30.06.02.2;Bledów;8270;2106
+G9;Brójce;Powiat łódzki wschodni;łódzkie;51011506032;5.1.10.15.06.03.2;Brójce;5242;2230
+G10;Budziszewice;Powiat tomaszowski;łódzkie;51011716032;5.1.10.17.16.03.2;Budziszewice;2347;2211
+G11;Charsznica;Powiat miechowski;małopolskie;11212008012;5.2.12.20.08.01.2;Charsznica;8177;3116
+G12;Czarnocin;Powiat piotrkowski;łódzkie;51011710022;5.1.10.17.10.02.2;Czarnocin;4282;2277
+G13;Czerniewice;Powiat tomaszowski;łódzkie;51011716042;5.1.10.17.16.04.2;Czerniewice;5281;2212
+G14;Drzewica;Powiat opoczyński;łódzkie;51011707023;5.1.10.17.07.02.3;Drzewica;10955;352
+G15;Fałków;Powiat konecki;świętokrzyskie;52615205012;5.3.26.52.05.01.2;Falków;4738;2586
+G16;Gielniów;Powiat przysuski;mazowieckie;71422723022;5.1.14.27.23.02.2;Gielniów;5116;2393
+G17;Głowaczów;Powiat kozienicki;mazowieckie;71422707022;5.1.14.27.07.02.2;Glowaczów;7971;2217
+G18;Gorzkowice;Powiat piotrkowski;łódzkie;51011710032;5.1.10.17.10.03.2;Gorzkowice;8824;2535
+G19;Goszczyn;Powiat grójecki;mazowieckie;71427306042;5.1.14.30.06.04.2;Goszczyn;2817;2166
+G20;Gowarczów;Powiat konecki;świętokrzyskie;52615205022;5.3.26.52.05.02.2;Gowarczów;4959;2472
+G21;Grabica;Powiat piotrkowski;łódzkie;51011710042;5.1.10.17.10.04.2;Grabica;6353;2352
+G22;Grabów nad Pilicą;Powiat kozienicki;mazowieckie;71422707042;5.1.14.27.07.04.2;Grabów nad Pilica;3714;2149
+G23;Inowłódz;Powiat tomaszowski;łódzkie;51011716052;5.1.10.17.16.05.2;Inowlódz;3979;2318
+G24;Irządze;Powiat zawierciański;śląskie;12415016032;5.2.24.50.16.03.2;Irzadze;3013;2954
+G25;Kluczewsko;Powiat włoszczowski;świętokrzyskie;52615313012;5.3.26.53.13.01.2;Kluczewsko;5201;2704
+G26;Klwów;Powiat przysuski;mazowieckie;71422723032;5.1.14.27.23.03.2;Klwów;3807;2317
+G27;Kobiele Wielkie;Powiat radomszczański;łódzkie;51011712062;5.1.10.17.12.06.2;Kobiele Wielkie;4626;2678
+G28;Kodrąb;Powiat radomszczański;łódzkie;51011712072;5.1.10.17.12.07.2;Kodrab;4950;2619
+G29;Koluszki;Powiat łódzki wschodni;łódzkie;51011506073;5.1.10.15.06.07.3;Koluszki;22529;311
+G30;Koniecpol;Powiat częstochowski;śląskie;12414604063;5.2.24.46.04.06.3;Koniecpol;10848;439
+G31;Końskie;Powiat konecki;świętokrzyskie;52615205033;5.3.26.52.05.03.3;Konskie;38056;383
+G32;Kozłów;Powiat miechowski;małopolskie;11212008032;5.2.12.20.08.03.2;Kozlów;5153;3068
+G33;Krasocin;Powiat włoszczowski;świętokrzyskie;52615313022;5.3.26.53.13.02.2;Krasocin;10797;2752
+G34;Kroczyce;Powiat zawierciański;śląskie;12415016042;5.2.24.50.16.04.2;Kroczyce;6191;3010
+G35;Lelów;Powiat częstochowski;śląskie;12414604092;5.2.24.46.04.09.2;Lelów;5429;2896
+G36;Lubochnia;Powiat tomaszowski;łódzkie;51011716062;5.1.10.17.16.06.2;Lubochnia;7798;2260
+G37;Łęki Szlacheckie;Powiat piotrkowski;łódzkie;51011710052;5.1.10.17.10.05.2;Leki Szlacheckie;3840;2532
+G38;Łopuszno;Powiat kielecki;świętokrzyskie;52615204082;5.3.26.52.04.08.2;Lopuszno;8894;2732
+G39;Magnuszew;Powiat kozienicki;mazowieckie;71422707062;5.1.14.27.07.06.2;Magnuszew;6655;2099
+G40;Masłowice;Powiat radomszczański;łódzkie;51011712102;5.1.10.17.12.10.2;Maslowice;4556;2599
+G41;Mniów;Powiat kielecki;świętokrzyskie;52615204112;5.3.26.52.04.11.2;Mniów;9162;2681
+G42;Mniszków;Powiat opoczyński;łódzkie;51011707032;5.1.10.17.07.03.2;Mniszków;4805;2409
+G43;Mogielnica;Powiat grójecki;mazowieckie;71427306073;5.1.14.30.06.07.3;Mogielnica;9664;323
+G44;Moskorzew;Powiat włoszczowski;świętokrzyskie;52615313032;5.3.26.53.13.03.2;Moskorzew;3038;2952
+G45;Moszczenica;Powiat piotrkowski;łódzkie;51011710062;5.1.10.17.10.06.2;Moszczenica;12802;2336
+G46;Niegowa;Powiat myszkowski;śląskie;12414609032;5.2.24.46.09.03.2;Niegowa;6093;2959
+G47;Nowe Miasto nad Pilicą;Powiat grójecki;mazowieckie;71427306083;5.1.14.30.06.08.3;Nowe Miasto nad Pilica;9109;333
+G48;Nowosolna;Powiat łódzki wschodni;łódzkie;51011506082;5.1.10.15.06.08.2;Nowosolna;2746;2112
+G49;Odrzywół;Powiat przysuski;mazowieckie;71422723042;5.1.14.27.23.04.2;Odrzywól;4405;2300
+G50;Ogrodzieniec;Powiat zawierciański;śląskie;12415016063;5.2.24.50.16.06.3;Ogrodzieniec;9739;488
+G51;Opoczno;Powiat opoczyński;łódzkie;51011707043;5.1.10.17.07.04.3;Opoczno;35967;358
+G52;Paradyż;Powiat opoczyński;łódzkie;51011707052;5.1.10.17.07.05.2;Paradyz;4713;2470
+G53;Pilica;Powiat zawierciański;śląskie;12415016073;5.2.24.50.16.07.3;Pilica;9573;481
+G54;Piotrków Trybunalski;Powiat m. Piotrków Trybunalski;łódzkie;51011762011;5.1.10.17.62.01.1;M. Piotrków Trybunalski;80971;2403
+G55;Poświętne;Powiat opoczyński;łódzkie;51011707062;5.1.10.17.07.06.2;Poswietne;3551;2309
+G56;Promna;Powiat białobrzeski;mazowieckie;71422701022;5.1.14.27.01.02.2;Promna;5945;2184
+G57;Przedbórz;Powiat radomszczański;łódzkie;51011712113;5.1.10.17.12.11.3;Przedbórz;7800;397
+G58;Przysucha;Powiat przysuski;mazowieckie;71422723063;5.1.14.27.23.06.3;Przysucha;13646;364
+G59;Radoszyce;Powiat konecki;świętokrzyskie;52615205042;5.3.26.52.05.04.2;Radoszyce;9671;2633
+G60;Radzanów;Powiat białobrzeski;mazowieckie;71422701032;5.1.14.27.01.03.2;Radzanów;3897;2298
+G61;Ręczno;Powiat piotrkowski;łódzkie;51011710072;5.1.10.17.10.07.2;Reczno;3849;2527
+G62;Rokiciny;Powiat tomaszowski;łódzkie;51011716072;5.1.10.17.16.07.2;Rokiciny;6068;2232
+G63;Rozprza;Powiat piotrkowski;łódzkie;51011710082;5.1.10.17.10.08.2;Rozprza;12138;2455
+G64;Ruda Maleniecka;Powiat konecki;świętokrzyskie;52615205052;5.3.26.52.05.05.2;Ruda Maleniecka;3615;2579
+G65;Rusinów;Powiat przysuski;mazowieckie;71422723072;5.1.14.27.23.07.2;Rusinów;4698;2379
+G66;Rzeczyca;Powiat tomaszowski;łódzkie;51011716082;5.1.10.17.16.08.2;Rzeczyca;5065;2261
+G67;Sadkowice;Powiat rawski;łódzkie;51011913062;5.1.10.19.13.06.2;Sadkowice;5870;2183
+G68;Secemin;Powiat włoszczowski;świętokrzyskie;52615313052;5.3.26.53.13.05.2;Secemin;5343;2847
+G69;Sławno;Powiat opoczyński;łódzkie;51011707072;5.1.10.17.07.07.2;Slawno;7821;2391
+G70;Słupia;Powiat jędrzejowski;świętokrzyskie;52615302072;5.3.26.53.02.07.2;Slupia (Jedrzejowska);4734;2993
+G71;Słupia Konecka;Powiat konecki;świętokrzyskie;52615205062;5.3.26.52.05.06.2;Slupia (Konecka);3875;2679
+G72;Smyków;Powiat konecki;świętokrzyskie;52615205072;5.3.26.52.05.07.2;Smyków;3671;2645
+G73;Stąporków;Powiat konecki;świętokrzyskie;52615205083;5.3.26.52.05.08.3;Staporków;19162;390
+G74;Stromiec;Powiat białobrzeski;mazowieckie;71422701052;5.1.14.27.01.05.2;Stromiec;5946;2193
+G75;Sulejów;Powiat piotrkowski;łódzkie;51011710093;5.1.10.17.10.09.3;Sulejów;15257;363
+G76;Szczekociny;Powiat zawierciański;śląskie;12415016083;5.2.24.50.16.08.3;Szczekociny;8936;454
+G77;Tomaszów Mazowiecki miasto;Powiat tomaszowski;łódzkie;51011716011;5.1.10.17.16.01.1;Tomaszów Mazowiecki;68966;2337
+G78;Tomaszów Mazowiecki wiejski;Powiat tomaszowski;łódzkie;51011716092;5.1.10.17.16.09.2;Tomaszów Mazowiecki;9650;2319
+G79;Tuszyn;Powiat łódzki wschodni;łódzkie;51011506113;5.1.10.15.06.11.3;Tuszyn;11643;335
+G80;Ujazd;Powiat tomaszowski;łódzkie;51011716102;5.1.10.17.16.10.2;Ujazd;8133;2258
+G81;Warka;Powiat grójecki;mazowieckie;71427306113;5.1.14.30.06.11.3;Warka;19738;303
+G82;Wielgomłyny;Powiat radomszczański;łódzkie;51011712132;5.1.10.17.12.13.2;Wielgomlyny;5232;2675
+G83;Włodowice;Powiat zawierciański;śląskie;12415016092;5.2.24.50.16.09.2;Wlodowice;5323;3009
+G84;Włoszczowa;Powiat włoszczowski;świętokrzyskie;52615313063;5.3.26.53.13.06.3;Wloszczowa;20980;428
+G85;Wola Krzysztoporska;Powiat piotrkowski;łódzkie;51011710102;5.1.10.17.10.10.2;Wola Krzysztoporska;11806;2414
+G86;Wolbórz;Powiat piotrkowski;łódzkie;51011710112;5.1.10.17.10.11.3;Wolbórz;7864;2329
+G87;Wolbrom;Powiat olkuski;małopolskie;11212312073;5.2.12.23.12.07.3;Wolbrom;23863;496
+G88;Wyśmierzyce;Powiat białobrzeski;mazowieckie;71422701063;5.1.14.27.01.06.3;Wysmierzyce;2965;334
+G89;Zagnańsk;Powiat kielecki;świętokrzyskie;52615204192;5.3.26.52.04.19.2;Zagnansk;12922;2687
+G90;Zawiercie;Powiat zawierciański;śląskie;12415016021;5.2.24.50.16.02.1;Zawiercie;54786;3051
+G91;Żarnowiec;Powiat zawierciański;śląskie;12415016102;5.2.24.50.16.10.2;Zarnowiec;4923;3044
+G92;Żarnów;Powiat opoczyński;łódzkie;51011707082;5.1.10.17.07.08.2;Zarnów;6661;2503
+G93;Żytno;Powiat radomszczański;łódzkie;51011712142;5.1.10.17.12.14.2;Zytno;6105;2754

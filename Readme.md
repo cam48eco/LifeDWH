@@ -24,7 +24,7 @@ According to project assumptions, the main data source was a Central Statistical
 In all of above mentioned cases, it was neccessary to transform the data from the original formats into one format common for all (.csv) with common data structure.  
 In result, each .csv file included following columns:
 - column "gmina_name" with the name of the local community,
-- column "date" with the indication of the date, when observation has been made (01.01.1995 to 01.01.2022 with one-year step),
+- column "date" with the indication of the date, when observation has been made (01.01.1995 with one-year step),
 - column(s) named after variable(s) name with the values registered for variable for given "gmina_name" on given "date".   
 
 In result, 33 .csv files have been created and filled with data (depending on the data source, this process was more or less automated). The source' data catalogue includes: 
@@ -33,9 +33,9 @@ In result, 33 .csv files have been created and filled with data (depending on th
 - 1 file with data derived from ministries / agencies, 
 - 28 files with data derived from Central Statistical Office.
 
-All above mentioned .csv files are stored in this repository (here) and are reviewed and updated periodically (at least once per month) manually. In case the new observations are detected by research team, the relevant .csv file is updated. In case if the new data source with new data will appear, the new .csv file will be created.
+All above mentioned .csv files are stored in relevant directory of this repository [(see here)]() and are reviewed and updated periodically (at least once per month) manually. In case the new observations are detected by research team, the relevant .csv file is updated. In case if the new data source with new data will appear, the new .csv file will be created.
 
-An additional data source is a .csv file with data describing features of each out of 93 communities (s_multi_dimension_gmina.csv; access [here](https://github.com/user/repo/blob/branch/other_file.md)). 
+An additional data source is a s_multi_dimension_gmina.csv file with data describing features of each out of 93 communities. The file is stored in [separate directory](). 
 
 ## II. ETL and Data warehouse design and implementation
 
