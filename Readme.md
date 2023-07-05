@@ -1,4 +1,4 @@
-![LifeLogo](img\LIFEx.png)
+![LifeLogo](https://github.com/cam48eco/LifeDWH/blob/main/img/LIFE.png)
 
 # ETL solution for Life
 
@@ -98,20 +98,15 @@ For this purpose the following steps in the SQL Server environment (SSMS) have b
 
 Creation of the database.
 
-![LifeLogo](img\CreateOLTP.png)
+![OltpLogo](https://github.com/cam48eco/LifeDWH/blob/main/img/CreateOLTP.png)
 
 
 Creation of the database tables for storing observations data (126 tables) and information on communities (1 table) along with data import from the indicated localisation ("Import flat files" SSMS option not applicable as it serves only single files) and SSMS Express version, used for this solution, does not include task scheduling feature). 
 
-![LifeLogo](img\ImportFlatFiles.png)
 
 
 
 
-
-```sql
-FROM 
-```
 
 
 
