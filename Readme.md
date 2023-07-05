@@ -33,9 +33,9 @@ In result, 33 .csv files have been created and filled with data (depending on th
 - 1 file with data derived from ministries / agencies, 
 - 28 files with data derived from Central Statistical Office.
 
-All above mentioned .csv files are stored in relevant directory of this repository [(see here)]() and are reviewed and updated periodically (at least once per month) manually. In case the new observations are detected by research team, the relevant .csv file is updated. In case if the new data source with new data will appear, the new .csv file will be created.
+All above mentioned .csv files are stored in relevant directory of this repository [(see here)](https://github.com/cam48eco/LifeDWH/tree/main/data/observations). The data are reviewed and updated periodically (at least once per month) manually. In case the new observations are detected by research team, the relevant .csv file is updated in the repository. In case if the new data source with new data will appear, the new .csv file will be created.
 
-An additional data source is a s_multi_dimension_gmina.csv file with data describing features of each out of 93 communities. The file is stored in [separate directory](). 
+An additional data source is a s_multi_dimension_gmina.csv file with data describing features of each out of 93 communities. The file is stored in [separate directory]https://github.com/cam48eco/LifeDWH/tree/main/data/communities). 
 
 ## II. ETL and Data warehouse design and implementation
 
@@ -85,7 +85,7 @@ def splitingfile():
 splitingfile()
 
 ```
-In result 33 .csv files with data were transformed into 126 separate .csv files (each file for separate variable, the filename named after variable, unified structure: three columns: "gmina_name", "date" and "value"), and stored in separated part of this repository [here](https://github.com/user/repo/blob/branch/other_file.md). 
+In result 33 files with data were transformed into 126 separate csv files (each file for separate variable, the filename named after variable, unified structure: three columns: "gmina_name", "date" and "value"), and stored in separated part of this repository [here](https://github.com/cam48eco/LifeDWH/tree/main/data/observationssplit). The process will be repeates every time when at least one from the initial 33 files with data will change.  
 
  
 #### 2.1.2. Creation and initial feed of OLTP database for storing 'transactional' data 
