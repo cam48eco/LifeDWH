@@ -106,7 +106,7 @@ The steps for creation and feeding of OLTP database in the SQL Server environmen
 
 **Database tables creation and data fetching** 
 
-Creation (including initial creation) of the database tables for storing observations data (126 tables) and information on communities (1 table) along with data import from the csv's is conducted with Airflow task, using DAG with [mssql operator](https://airflow.apache.org/docs/apache-airflow-providers-microsoft-mssql/stable/operators.html), allowing the implementation of SQL server queries on the database. 
+Creation (including initial creation) of the database tables for storing observations data (126 tables) and information on communities (1 table) along with data import from the csv's is conducted with Airflow task, using DAG with [mssql operator](https://airflow.apache.org/docs/apache-airflow-providers-microsoft-mssql/stable/operators.html), allowing the execution of SQL server queries on the database. 
 The core of the approach is the T-SQL script, focused not only on the initial tables creation and fetching, but enabling tables updating (with duplications preventing) in given intervals (here: every 30 days), as well.
 
 "Import flat files" feature present in SSMS was not useful as it serves only single files. SSMS Express version, used for this solution, does not include task scheduling feature with SQL Server Job Agent, so preparation of dedicated T-SQL code and matching it with Airflow was neccessary. Another option, to consider in the future is to deploy [SQL Server triggers](https://learn.microsoft.com/en-us/sql/t-sql/statements/create-trigger-transact-sql?view=sql-server-ver16).  
