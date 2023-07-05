@@ -104,8 +104,8 @@ For this purpose the following steps in the SQL Server environment (SSMS) have b
 **Creation of the database tables and fetching with data** 
 
 Creation (including initial creation) of the database tables for storing observations data (126 tables) and information on communities (1 table) along with data import from the csv's is conducted with Airflow task, using DAG with [mssql operator](https://airflow.apache.org/docs/apache-airflow-providers-microsoft-mssql/stable/operators.html), allowing the implementation of SQL server queries on oltplife database. 
-The core of the approach is the SQL server script, focused not only on the initial tables creation and fetching, but enabling their updating (with duplications preventing) in given intervals (here: every 30 days), as well. 
-"Import flat files" option present in SSMS was not useful as it serves only single files. SSMS Express version, used for this solution, does not include task scheduling feature with SQL Server Job Agent, so preparation of dedicated SQL code was neccessary. Another option was to deploy the option of  
+The core of the approach is the SQL server script, focused not only on the initial tables creation and fetching, but enabling tables updating (with duplications preventing) in given intervals (here: every 30 days), as well. 
+"Import flat files" option present in SSMS was not useful as it serves only single files. SSMS Express version, used for this solution, does not include task scheduling feature with SQL Server Job Agent, so preparation of dedicated SQL code and matching it with Airflow was neccessary. Another option, to consired in the future is to deploy [triggers](https://learn.microsoft.com/en-us/sql/t-sql/statements/create-trigger-transact-sql?view=sql-server-ver16).  
 
 
 
