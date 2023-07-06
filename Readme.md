@@ -81,7 +81,7 @@ def splitingfile():
                 # Rename name of column with values into 'value' 
                 newfiletemp.columns = newfiletemp.columns.str.replace(str(newfiletemp.columns[2]), 'value')
                 # Write the dataframe into separate file naming file according to variable name
-                newfiletemp.to_csv('D:\Path\To\csv\files\AfterSplit\{}.csv'.format(datafile.columns[i]), index=False) 
+                newfiletemp.to_csv('D:\Path\To\csv\files\AfterSplit\{}.csv'.format(datafile.columns[i]), sep = ";", index=False) 
 
 splitingfile()
 
