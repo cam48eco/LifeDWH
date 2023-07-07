@@ -16,9 +16,11 @@ The following issues are covered:
 - I. Data sources identification, preprocessing and storage 
 - II. ETL and Data warehouse design and implementation
 - III. Automation of the ETL process with Airflow.
-Brief presentation of the pipeline / ETL assumptions is presented below.
 
+Fig. 1. Brief presentation of the pipeline / ETL architecture assumptions
 ![LifeBPM](https://github.com/cam48eco/LifeDWH/blob/main/img/diagram_Airflow.svg)
+
+Source: Author own elaboration 
 
 
 ## I. Data sources identification, initial preprocessing and storage 
