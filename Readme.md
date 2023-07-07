@@ -12,9 +12,10 @@ The solution' architecture follows these limitations, however the implemented ap
 
 ## Stack
 
+- Windows 10
 - SQL Server 2017 
 - SSMS 17.9.1
-- Airflow 
+- Airflow (for Win10 setup see [info](https://www.freecodecamp.org/news/install-apache-airflow-on-windows-without-docker/))
 
 ## Scope
 The repository documents the steps and include resources used for solution creation and set up of data warehouse (under SQL Server 2017) and its maitenance with orchestration tool (Airflow).
