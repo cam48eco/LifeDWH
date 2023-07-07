@@ -12,6 +12,9 @@ The following issues are covered:
 - I. Data sources identification, preprocessing and storage 
 - II. ETL and Data warehouse design and implementation
 - III. Automation of the ETL process with Airflow.
+Brief presentation of the pipeline / ETL assumptions is presented below.
+
+![LifeBPM](https://github.com/cam48eco/LifeDWH/blob/main/img/diagram_Airflow.svg)
 
 
 ## I. Data sources identification, initial preprocessing and storage 
@@ -89,42 +92,39 @@ splitingfile()
 In result 33 files with initial data were transformed into 126 separate csv files (each file for separate variable, the filename named after variable, unified structure: three columns: "gmina_name", "date" and "value"), and stored in separated part of this repository [here](https://github.com/cam48eco/LifeDWH/tree/main/data/observationssplit). The process is repeated every time when at least one, from the initial 33 files with data, is changing.  
 
  
-#### 2.1.2. Creation and feeding of OLTP database for storing 'transactional' data 
+#### 2.1.2. Creation and feeding of 'sources' database for storing 'transactional' data 
 
 To ensure the smooth functioning of data warehouse, it was neccessary to design and set-up a database, where 'transactional' data, being stored so far in flat files (.csv; see previous chapter) will be stored. 
 The term 'transactional' relates in this specific case to observations' data with values of various variables on various dates. The database (updated periodically throghout Airflow task, what will be discussed in the next section), serves as a 'point of departure' for ETL process for the data warehouse. 
 
 The database is very simple and consist out of tables with observations data (126 tables) and one table with specific information on communities - in both cases filled periodically from flat .csv files. 
 
-The steps for creation and feeding of OLTP database in the SQL Server environment (SSMS) are presented below. 
+The steps for creation and feeding of OLTP database in the SQL Server environment (SSMS) are described below. 
 
 
-**Database creation**
+**Sources database creation**
 
 ![OltpLogo](https://github.com/cam48eco/LifeDWH/blob/main/img/CreateOLTP.png)
 
 
 **Database tables creation and data fetching** 
 
-Creation (including initial creation) of the database tables for storing observations data (126 tables) and information on communities (1 table) along with data import from the csv's is conducted with Airflow task, using DAG with [mssql operator](https://airflow.apache.org/docs/apache-airflow-providers-microsoft-mssql/stable/operators.html), allowing the execution of SQL server queries on the database. 
-The core of the approach is the T-SQL script, focused not only on the initial tables creation and fetching, but enabling tables updating (with duplications preventing) in given intervals (here: every 30 days), as well.
+Fetching source database tables with observations data (126 tables) and information on communities (1 table) from the csv's is conducted with Airflow task (daily executed), using DAG with [mssql operator](https://airflow.apache.org/docs/apache-airflow-providers-microsoft-mssql/stable/operators.html), allowing the execution of SQL server queries on the database. 
 
-"Import flat files" feature present in SSMS was not useful as it serves only single files. SSMS Express version, used for this solution, does not include task scheduling feature with SQL Server Job Agent, so preparation of dedicated T-SQL code and matching it with Airflow was neccessary. Another option, to consider in the future is to deploy [SQL Server triggers](https://learn.microsoft.com/en-us/sql/t-sql/statements/create-trigger-transact-sql?view=sql-server-ver16). 
+The core of the approach is the T-SQL script, focused not only on the initial tables creation and fetching, but enabling database tables update (with duplications preventing), as well. As the T-SQL code is long, it has been not included into [respective DAG](https://github.com/cam48eco/LifeDWH/tree/main/dags/C0_dblife_insertDataIntoSourceTables.py), but the execution of the [separate sql file](https://github.com/cam48eco/LifeDWH/tree/main/dags/C0_insertDataIntoSourceTables_from_csvs.sql) from within DAG has been chosen (see DAG line 42), what makes the DAG code more clear. 
+Above mentioned approach is assumed for entire solution and all separated sql files with T-SQL scripts (toghetger with DAgs) are stored [here](https://github.com/cam48eco/LifeDWH/tree/main/dags). 
 
-Below, the Airflow DAG with T-SQL code, enabling tables creation and data fetching, is presented. The presentation of all DAGs, their mutual dependencies and configuration assumptions are presented in the last section. 
+"Import flat files" feature present in SSMS was not useful to achieve above mentioned resuls, as it serves only single files. SSMS Express version, used for this solution, does not include task scheduling feature with SQL Server Job Agent, so preparation of dedicated T-SQL code and matching it with Airflow was neccessary. Another option, to consider in the future is to deploy [SQL Server triggers](https://learn.microsoft.com/en-us/sql/t-sql/statements/create-trigger-transact-sql?view=sql-server-ver16). 
 
-```python
-# DAG with T-SQL snippets
+It has to be mentioned, that to ensure proper execution of connection between Airflow and SQL Server, one schould ensure that Airflow is supplemented with the relevant plugin enabling MsSqlOperator. If not, provision following command in CMD is neccessary:
+
+```bash
+airflow connections add [mssql_conn_id_name] --conn-uri mssql://sa:[password]@[sever_ip]:[port]
 ```
 
+In result, the relevant option will appear in Airflow in Admin -> Connections section: 
 
-
-
-
-
-
-
-
+[airflow_mssql](https://github.com/cam48eco/LifeDWH/blob/main/img/Airflow_Mssql.png)
 
 
 

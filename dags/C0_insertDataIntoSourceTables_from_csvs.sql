@@ -43,8 +43,8 @@ BEGIN
 	USE oltplife
 	IF EXISTS (SELECT * FROM sys.tables t join sys.schemas s on (t.schema_id = s.schema_id) where s.name = 'dbo' and t.name = (SELECT tablenames FROM [dbo].[#csvlist] WHERE tablenames = @tablename))
 		EXEC (@sqldrop)
-		--EXEC (@sqlcreate)
-		--EXEC (@sqlinsert)
+		EXEC (@sqlcreate)
+		EXEC (@sqlinsert)
 	SET @Counter  = @Counter  + 1
 END
 
