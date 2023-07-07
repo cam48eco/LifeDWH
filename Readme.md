@@ -32,7 +32,7 @@ According to project assumptions, the main data source was a Central Statistical
 - ministries and governmental agencies (data from websites or retrieved on formal request),
 - desk research results (data from the documents). 
 
-In all of above mentioned cases, it was neccessary to transform the data from the original formats into one csv's with following common data structure:  
+In all of above mentioned cases, it was neccessary to transform the data from the original formats into csv's with following common data structure:  
 - column "gmina_name" with the name of the local community,
 - column "date" with the indication of the date, when observation has been made (one year granulation starting with 01.01.1995 with one-year step),
 - column(s) named after variable(s) name(s) populated with values registered for the variable(s) in the communities on various dates ("observations").   
