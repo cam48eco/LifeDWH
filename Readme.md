@@ -45,7 +45,8 @@ In result, 33 .csv files have been created and filled with data (depending on th
 
 Data included in the csv files covers various timespans and geographical scope, dependent on the variables. 
 
-All above mentioned .csv files are stored in relevant directory of this repository [(see here)](https://github.com/cam48eco/LifeDWH/tree/main/data/observations). The data are reviewed and updated periodically (at least once per month) manually. In case the new observations are detected by research team, the relevant .csv file is updated in the repository. In case if the new data source with new data will appear, the new .csv file is created and pushed in the repository.
+All above mentioned .csv files are stored in relevant directory of this repository [(see here)](https://github.com/cam48eco/LifeDWH/tree/main/data/observations). The data are reviewed and updated periodically (at least once per month) manually. In case the new observations are detected by research team in existing data sources, the relevant .csv file is updated in the repository. 
+In case if the new flat data source with new data would appear, the new .csv file would be created and pushed into the repository.
 
 An additional data source is a s_multi_dimension_gmina.csv file with data describing features of each out of 93 communities. The file is stored in [separate directory](https://github.com/cam48eco/LifeDWH/tree/main/data/communities). 
 
