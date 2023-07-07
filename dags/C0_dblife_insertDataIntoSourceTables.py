@@ -16,8 +16,8 @@ from airflow.providers.microsoft.mssql.operators.mssql import MsSqlOperator
 # Setting arguments for DAG
 
 default_args = {
-    'owner': 'pawel',
-    'start_date': dt.datetime(2023, 7, 6),
+    'owner': 'life',
+    'start_date': dt.datetime(2023, 7, 7),
     'retries': 1, #the number of retries that should be performed before failing the task
     'retry_delay': dt.timedelta(minutes=1), # delay between retries
 }
@@ -27,14 +27,14 @@ default_args = {
 
 with DAG('C1_insertDataIntoSourceTables_from_csvs',
          default_args=default_args,
-         schedule_interval= '15 12 * * *'
+         schedule_interval= '10 10 * * *'
          ) as dag:
 
 
 # Tasks definitions 
 
     # Communicate process start 
-    print_insertintosourcetables = BashOperator(task_id='Print_info',
+    print_start = BashOperator(task_id='Print_info',
                                bash_command='echo "I am inserting / updating data into source tables in oltplife from csvs"')
 
     # Execute sql code from file 
@@ -54,7 +54,7 @@ with DAG('C1_insertDataIntoSourceTables_from_csvs',
 
 # Dependencies - Sequence
 
-print_insertintosourcetables >> exe_createandfeedtablesfromcsv >> print_result
+print_start >> exe_createandfeedtablesfromcsv >> print_result
 
 
 
