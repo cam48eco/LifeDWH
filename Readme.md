@@ -10,6 +10,12 @@ Previously, the dedicated tool [(R package)](https://github.com/ap48atgazetadotp
 The point of departure for solution preparation was a statement, that the solution should be deployed in a way, assuming usage of on-premise infrastructure, including an server working on local machine (e.g. laptop) connected to web, due to lack of financial resources for estabilishment and maitenance of external server or cloud solutions. In addition, the free versions of software (SSMS Express) have to be used, limiting the access to useful features, what resulted in need to prepare own scripts instead of automate some of the tasks.
 The solution' architecture follows these limitations, however the implemented approach (T-SQL scripts, Airflow DAGs, etc.) can easily be adopted, after minor changes, to prepare a similar solutions in on-premise servers or (with more effort) in the cloud. Disrgegard on above mentioned limits, some of cloud solutions have been also discussed and implemented (in particular for visualization), to take the adventages from such kind of technologies as Tableau and Looker. 
 
+## Stack
+
+- SQL Server 2017 
+- SSMS 17.9.1
+- Airflow 
+
 ## Scope
 The repository documents the steps and include resources used for solution creation and set up of data warehouse (under SQL Server 2017) and its maitenance with orchestration tool (Airflow).
 The following issues are covered:
@@ -101,17 +107,19 @@ splitingfile()
 In result 33 files with initial data were transformed into 126 separate csv files (each file for separate variable, the filename named after variable, unified structure: three columns: "gmina_name", "date" and "value"), and stored in separated part of this repository [here](https://github.com/cam48eco/LifeDWH/tree/main/data/observationssplit). The process is repeated every time when at least one, from the initial 33 files with data, is changing.  
 
  
-#### 2.1.2. Creation and feeding of 'sources' database for storing 'transactional' data 
+#### 2.1.2. Creation and feeding of 'sources database' for storing 'transactional' data 
 
 To ensure the smooth functioning of data warehouse, it was neccessary to design and set-up a database, where 'transactional' data, being stored so far in flat files (.csv; see previous chapter) will be stored. 
 The term 'transactional' relates in this specific case to observations' data with values of various variables on various dates. The database (updated periodically throghout Airflow task, what will be discussed in the next section), serves as a 'point of departure' for ETL process for the data warehouse. 
 
-The database is very simple and consist out of tables with observations data (126 tables) and one table with specific information on communities - in both cases filled periodically from flat .csv files. 
+The 'sources database' is very simple and consist out of tables with observations data (126 tables) and one table with specific information on communities - in both cases filled periodically from flat .csv files. In case if new data sources would appear, the database will be reconstructed to ensure new data utilisation.  
 
 The steps for creation and feeding of OLTP database in the SQL Server environment (SSMS) are described below. 
 
 
-**Sources database creation**
+**'Sources database' creation**
+
+The process has been developed in SSMS (see below).
 
 ![OltpLogo](https://github.com/cam48eco/LifeDWH/blob/main/img/CreateOLTP.png)
 
