@@ -6,6 +6,9 @@
 The motivation to prepare the solution was a need to facilitate the data flow and ensuring access to data neccessary for analyses of socio-economic aspects of Pilica catchment area, consisting out of 93 communities  (gmina) on NUTS5 level.
 Previously, the dedicated tool [(R package)](https://github.com/ap48atgazetadotpl/R_GUS_retrieving) for automated data retrieval from Central Statistical Office (GUS) in Poland, based on GUS API, has been elaborated, however the work has been suspended because of integration limitations. 
 
+## Assumptions
+The point of departure for solution preparation was a statement, that the solution should be deployed in a way, assuming usage of on-premise infrastructure, including an server working on local machine (e.g. laptop) connected to web, due to lack of financial resources for estabilishment and maitenance of external server or cloud solutions. In addition, the free versions of software (SSMS Express) have to be used, limiting the access to useful features, what resulted in need to prepare own scripts instead of automate some of the tasks.
+The solution' architecture follows these limitations, however the implemented approach (T-SQL scripts, Airflow DAGs, etc.) can easily be adopted, after minor changes, to prepare a similar solutions in on-premise servers or (with more effort) in the cloud. Disrgegard on above mentioned limits, some of cloud solutions have been also discussed and implemented (in particular for visualization), to take the adventages from such kind of technologies as Tableau and Looker. 
 
 ## Scope
 The repository documents the steps and include resources used for solution creation and set up of data warehouse (under SQL Server 2017) and its maitenance with orchestration tool (Airflow).
