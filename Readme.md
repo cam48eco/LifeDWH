@@ -4,6 +4,7 @@
 
 ## Motivation 
 The motivation to prepare the solution was a need to facilitate the data flow and ensuring access to data neccessary for analyses of socio-economic aspects of Pilica catchment area, consisting out of 93 communities  (gmina) on NUTS5 level.
+Previously, the dedicated tool [(R package)](https://github.com/ap48atgazetadotpl/R_GUS_retrieving) for automated data retrieval from Central Statistical Office (GUS) in Poland, based on GUS API, has been elaborated, however the work has been suspended because of integration limitations. 
 
 
 ## Scope
