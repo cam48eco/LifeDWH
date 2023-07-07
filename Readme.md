@@ -109,7 +109,7 @@ The steps for creation and feeding of OLTP database in the SQL Server environmen
 
 **Database tables creation and data fetching** 
 
-Fetching source database tables with observations data (126 tables) and information on communities (1 table) from the csv's is conducted with Airflow task (daily executed), using DAG with [mssql operator](https://airflow.apache.org/docs/apache-airflow-providers-microsoft-mssql/stable/operators.html), allowing the execution of SQL server queries on the database. 
+Creation and fetching source database tables with observations data (126 tables) and information on communities (1 table) from the csv's is conducted with Airflow task (daily executed to catch possible changes in any of 126 tables; the information on communities table is fixed), using DAG with [mssql operator](https://airflow.apache.org/docs/apache-airflow-providers-microsoft-mssql/stable/operators.html), allowing the execution of SQL server queries on the database. 
 
 The core of the approach is the T-SQL script, focused not only on the initial tables creation and fetching, but enabling database tables update (with duplications preventing), as well. As the T-SQL code is long, it has been not included into [respective DAG](https://github.com/cam48eco/LifeDWH/tree/main/dags/C0_dblife_insertDataIntoSourceTables.py), but the execution of the [separate sql file](https://github.com/cam48eco/LifeDWH/tree/main/dags/C0_insertDataIntoSourceTables_from_csvs.sql) from within DAG has been chosen (see DAG line 42), what makes the DAG code more clear. 
 Above mentioned approach is assumed for entire solution and all separated sql files with T-SQL scripts (toghetger with DAgs) are stored [here](https://github.com/cam48eco/LifeDWH/tree/main/dags). 
@@ -124,7 +124,7 @@ airflow connections add [mssql_conn_id_name] --conn-uri mssql://sa:[password]@[s
 
 In result, the relevant option will appear in Airflow in Admin -> Connections section: 
 
-[airflow_mssql](https://github.com/cam48eco/LifeDWH/blob/main/img/Airflow_Mssql.png)
+![Airflow_mssql](https://github.com/cam48eco/LifeDWH/blob/main/img/Airflow_Mssql.png)
 
 
 
