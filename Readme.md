@@ -22,6 +22,8 @@ Fig. 1. Brief presentation of the pipeline / ETL architecture assumptions
 
 Source: Author own elaboration 
 
+The solutions undergoes a continuos development, with the assumption, that new sources of raw data could appear (for example a real time data retrieved from sensors, throghout APIs, etc.). In such cases, the solution will be adjusted to ensure utilization of these data (for example throgout creation and deployment of new scripts) and flat data sources, presented above will be enriched by another data types.  
+
 
 ## I. Data sources identification, initial preprocessing and storage 
 
