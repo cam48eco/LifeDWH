@@ -122,9 +122,9 @@ It has to be mentioned, that to ensure proper execution of connection between Ai
 airflow connections add [mssql_conn_id_name] --conn-uri mssql://sa:[password]@[sever_ip]:[port]
 ```
 
-In result, the relevant option will appear in Airflow in Admin -> Connections section: 
+In result, the relevant option will appear in Airflow in Admin -> Connections panel: 
 
-![Airflow_mssql](https://github.com/cam48eco/LifeDWH/blob/main/img/Airflow_Mssql.png)
+![AirflowMssql](https://github.com/cam48eco/LifeDWH/blob/main/img/Airflow_Mssql.png)
 
 
 
