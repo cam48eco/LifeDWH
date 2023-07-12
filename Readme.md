@@ -7,8 +7,8 @@ The motivation to prepare the solution was a need to facilitate the data flow an
 Previously, the dedicated tool [(R package)](https://github.com/ap48atgazetadotpl/R_GUS_retrieving) for automated data retrieval from Central Statistical Office (GUS) in Poland, based on GUS API, has been elaborated, however the work has been suspended because of integration limitations. 
 
 ## Assumptions
-The point of departure for solution preparation was a statement, that the solution should be deployed in a way, assuming usage of on-premise infrastructure, including an server working on local machine (e.g. laptop) connected to web, due to lack of financial resources for estabilishment and maitenance of external server or cloud solutions. In addition, the free versions of software (SSMS Express) have to be used, limiting the access to useful features, what resulted in need to prepare own scripts instead of automate some of the tasks.
-The solution' architecture follows these limitations, however the implemented approach (T-SQL scripts, Airflow DAGs, etc.) can easily be adopted, after minor changes, to prepare a similar solutions in on-premise servers or (with more effort) in the cloud. Disrgegard on above mentioned limits, some of cloud solutions have been also discussed and implemented (in particular for visualization), to take the adventages from such kind of technologies as Tableau and Looker. 
+The point of departure for solution preparation was a statement, that the solution should be deployed in a way, assuming usage of on-premise infrastructure, including an server working on local machine (e.g. laptop) connected to web, due to lack of financial resources for estabilishment and maitenance of external server or cloud solutions. In addition, the free versions of software (SSMS Express) had to be used, limiting the access to useful features, what resulted in need to prepare own scripts instead of automate some of the tasks.
+The solution' architecture follows these limitations, however the implemented approach (T-SQL scripts, Airflow DAGs, etc.) can easily be adopted, after minor changes, to prepare a similar solutions in on-premise servers or (with more effort) in the cloud. Disregard on above mentioned limits, some of cloud solutions have been also discussed and implemented (in particular for visualization), to take the adventages from such kind of technologies as Tableau and Looker. 
 
 ## Stack
 
@@ -127,20 +127,20 @@ The process has been developed in SSMS (see below).
 
 **Database tables creation and data fetching** 
 
-Creation and fetching source database tables with observations data (126 tables) and information on communities (1 table) from the csv's is conducted with Airflow task (daily executed to catch possible changes in any of 126 tables; the information on communities table is fixed), using DAG with [mssql operator](https://airflow.apache.org/docs/apache-airflow-providers-microsoft-mssql/stable/operators.html), allowing the execution of SQL server queries on the database. 
+Creation and fetching source database tables with observations data (126 tables) and information on communities (1 table) from the csv's is conducted with two separate Airflow tasks (daily executed to catch possible changes in any of 126 tables; the information on communities table is fixed), using DAG with [mssql operator](https://airflow.apache.org/docs/apache-airflow-providers-microsoft-mssql/stable/operators.html), allowing the execution of SQL server queries on the database. 
 
-The core of the approach is the T-SQL script, focused not only on the initial tables creation and fetching, but enabling database tables update (with duplications preventing), as well. As the T-SQL code is long, it has been not included into [respective DAG](https://github.com/cam48eco/LifeDWH/tree/main/dags/C0_dblife_insertDataIntoSourceTables.py), but the execution of the [separate sql file](https://github.com/cam48eco/LifeDWH/tree/main/dags/C0_insertDataIntoSourceTables_from_csvs.sql) from within DAG has been chosen (see DAG line 42), what makes the DAG code more clear. 
-Above mentioned approach is assumed for entire solution and all separated sql files with T-SQL scripts (toghetger with DAgs) are stored [here](https://github.com/cam48eco/LifeDWH/tree/main/dags). 
+The core of the approach are T-SQL scripts, focused not only on the initial tables creation and fetching, but enabling database tables update (with duplications preventing), as well. As the T-SQL codes are long, they have been not included into respective DAGs: [first](https://github.com/cam48eco/LifeDWH/tree/main/dags/C0_dblife_insertDataIntoSourceTables.py) and [second](https://github.com/cam48eco/LifeDWH/tree/main/dags/C0_dblife_insertDataIntoDimSourceTables.py), but the approach to execute separate sql files: [first](https://github.com/cam48eco/LifeDWH/tree/main/dags/C0_insertDataIntoSourceTables_from_csvs.sql) and [second](https://github.com/cam48eco/LifeDWH/tree/main/dags/C0_insertDataIntoDimSourceTables_from_csvs.sql) from within DAGs has been chosen (see DAG line 42), what makes  DAGs code more clear. 
+Above mentioned approach was assumed for entire solution and all separated sql files with T-SQL scripts (toghetger with DAgs) are stored [here](https://github.com/cam48eco/LifeDWH/tree/main/dags). 
 
 "Import flat files" feature present in SSMS was not useful to achieve above mentioned resuls, as it serves only single files. SSMS Express version, used for this solution, does not include task scheduling feature with SQL Server Job Agent, so preparation of dedicated T-SQL code and matching it with Airflow was neccessary. Another option, to consider in the future is to deploy [SQL Server triggers](https://learn.microsoft.com/en-us/sql/t-sql/statements/create-trigger-transact-sql?view=sql-server-ver16). 
 
-It has to be mentioned, that to ensure proper execution of connection between Airflow and SQL Server, one schould ensure that Airflow is supplemented with the relevant plugin enabling MsSqlOperator. If not, provision following command in CMD is neccessary:
+It has to be mentioned, that to ensure proper execution of connection between Airflow and SQL Server, it was neccessary to supplement Airflow with the relevant plugin enabling MsSqlOperator. For this purpose, provision following command in CMD was neccessary:
 
 ```bash
 airflow connections add [mssql_conn_id_name] --conn-uri mssql://sa:[password]@[sever_ip]:[port]
 ```
 
-In result, the relevant option will appear in Airflow in Admin -> Connections panel: 
+In result, the relevant option appeared in Airflow in Admin -> Connections panel, enabling use of MsSqlOperator in DAGs, toghether with attribute of connection (mssql_conn_id="[mssql_conn_id_name]").
 
 ![AirflowMssql](https://github.com/cam48eco/LifeDWH/blob/main/img/Airflow_Mssql.png)
 
