@@ -22,19 +22,17 @@ default_args = {
     'retry_delay': dt.timedelta(minutes=1), # delay between retries
 }
 
-
 # Passing arguments to DAG, set run interval, define tasks with operators (Bash/Python) and relations among them    
 
-with DAG('C1_insertDataIntoSourceTables_from_csvs',
+with DAG('C1_insertDataIntoDimSourceTables_from_csvs',
          default_args=default_args,
-         schedule_interval= '1 6 * * *'
+         schedule_interval= '2 6 * * *'
          ) as dag:
-
 
 # Tasks definitions 
 
     # Communicate process start 
-    print_start = BashOperator(task_id='Print_info',
+    print_insertintosourcetables = BashOperator(task_id='Print_info',
                                bash_command='echo "I am inserting / updating data into source tables in oltplife from csvs"')
 
     # Execute sql code from file 
@@ -42,7 +40,7 @@ with DAG('C1_insertDataIntoSourceTables_from_csvs',
        task_id="create_table_from_external_file",
        mssql_conn_id="airflow_mssql_f",
        # T-SQL file - path relative to DAG
-       sql="C0_insertDataIntoSourceTables_from_csvs.sql",
+       sql="C1_insertDataIntoDimSourceTables_from_csvs.sql",
        dag=dag,
      )
 
@@ -51,10 +49,9 @@ with DAG('C1_insertDataIntoSourceTables_from_csvs',
                                bash_command='echo "Task executed"')
 
 
-
 # Dependencies - Sequence
 
-print_start >> exe_createandfeedtablesfromcsv >> print_result
+print_insertintosourcetables >> exe_createandfeedtablesfromcsv >> print_result
 
 
 
