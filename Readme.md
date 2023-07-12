@@ -125,7 +125,7 @@ The process has been developed in SSMS (see below).
 ![OltpLogo](https://github.com/cam48eco/LifeDWH/blob/main/img/CreateOLTP.png)
 
 
-**Database tables creation and data fetching** 
+**'Sources database' tables creation and data fetching** 
 
 Creation and fetching source database tables with observations data (126 tables) and information on communities (1 table) from the csv's is conducted with two separate Airflow tasks (daily executed to catch possible changes in any of 126 tables; the information on communities table is fixed), using DAG with [mssql operator](https://airflow.apache.org/docs/apache-airflow-providers-microsoft-mssql/stable/operators.html), allowing the execution of SQL server queries on the database. 
 
@@ -143,6 +143,19 @@ airflow connections add [mssql_conn_id_name] --conn-uri mssql://sa:[password]@[s
 In result, the relevant option appeared in Airflow in Admin -> Connections panel, enabling use of MsSqlOperator in DAGs, toghether with attribute of connection (mssql_conn_id="[mssql_conn_id_name]").
 
 ![AirflowMssql](https://github.com/cam48eco/LifeDWH/blob/main/img/Airflow_Mssql.png)
+
+
+**'Staging database' creation, tables creation and data fetching** 
+
+Remark: 
+The staging database (oltplifestaging) has been designed for the case if in the future the new, real time data as data sources will appear. In that case, this information should be aggregated before being used for dimensions extraction and data warehouse feeding, and - after this aggregation - droppped from the 'Sources database' to avoid inefficient use of disk space (according to bucket philosophy - retention policy for database). As at this moment, there are any real time data to be processed, the 'Staging database' is a duplicate of 'Sources database'. The motivation to create the 'Staging database' at this step, was to avoid the time-consuming solution reconstruction, when the new, real-time data appear. 
+
+According to above presented assumptions, in the case of tables with data on: observations and communities, the respective tables in oltplifestaging are feeded with tables from oltplifesources database with respective DAGs. 
+In the case of other sources (above mentioned real data, etc.) respective DAGs will be elaborated to transform the data from oltplifesources when transfering to their tables in oltplifestaging. 
+
+
+
+
 
 
 
