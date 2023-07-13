@@ -148,8 +148,11 @@ In result, the relevant option appeared in Airflow in Admin -> Connections panel
 #### 2.1.3. 'Staging database' and its tables creation with fetching with data transformed from 'Sources database' 
 
 The staging database (oltplifestaging) has been designed in particular for the case if in the future the new, real time data as data sources will appear. In that case, this information should be especially transformed / aggregated before being used for dimensions extraction and data warehouse feeding, and - after this - droppped from the 'Sources database' to avoid inefficient use of disk space (according to bucket philosophy - retention policy for database). 
+
+![OltpLogo](https://github.com/cam48eco/LifeDWH/blob/main/img/CreateOLTPstaging.png)
+
 According to above mentioned assumptions, in the case of tables with data on: observations and communities, the respective tables in oltplifestaging are feeded with tables from oltplifesources database with respective DAGs with minor transformations.
-In the case of other sources (above mentioned real data, etc.) respective DAGs will be elaborated to transform the data from oltplifesources when transfering to respective tables in oltplifestaging. 
+In the case of other sources (above mentioned real data, etc.) additional, respective DAGs will be elaborated to transform the data from oltplifesources when transfering to respective tables in oltplifestaging. 
 The assumptions for the processes connected with this solution have been elaborated and presented [here](https://github.com/cam48eco/LifeDWH/blob/main/img/sources_with_RT.svg). 
 
 
