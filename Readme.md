@@ -145,9 +145,8 @@ In result, the relevant option appeared in Airflow in Admin -> Connections panel
 ![AirflowMssql](https://github.com/cam48eco/LifeDWH/blob/main/img/Airflow_Mssql.png)
 
 
-#### 2.1.3. 'Staging database' creation, tables creation and transformed data fetching 
+#### 2.1.3. 'Staging database' and its tables creation with fetching with data transformed from 'Sources database' 
 
-Remark: 
 The staging database (oltplifestaging) has been designed in particular for the case if in the future the new, real time data as data sources will appear. In that case, this information should be especially transformed / aggregated before being used for dimensions extraction and data warehouse feeding, and - after this - droppped from the 'Sources database' to avoid inefficient use of disk space (according to bucket philosophy - retention policy for database). 
 According to above mentioned assumptions, in the case of tables with data on: observations and communities, the respective tables in oltplifestaging are feeded with tables from oltplifesources database with respective DAGs with minor transformations.
 In the case of other sources (above mentioned real data, etc.) respective DAGs will be elaborated to transform the data from oltplifesources when transfering to respective tables in oltplifestaging. 
