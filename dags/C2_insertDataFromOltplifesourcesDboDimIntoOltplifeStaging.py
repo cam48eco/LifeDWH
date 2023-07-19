@@ -1,7 +1,6 @@
 # Import libraries 
 
 import pandas as pd
-import pyodbc 
 import datetime as dt
 
 from datetime import datetime, timedelta
@@ -17,32 +16,30 @@ from airflow.providers.microsoft.mssql.operators.mssql import MsSqlOperator
 
 default_args = {
     'owner': 'life',
-    'start_date': dt.datetime(2023, 7, 7),
+    'start_date': dt.datetime(2023, 7, 18),
     'retries': 1, #the number of retries that should be performed before failing the task
     'retry_delay': dt.timedelta(minutes=1), # delay between retries
 }
 
-
 # Passing arguments to DAG, set run interval, define tasks with operators (Bash/Python) and relations among them    
 
-with DAG('C2_insertSourceTablesIntoStagingTables',
+with DAG('C2_insertDataFromOltplifesourcesDboDimIntoOltplifeStaging',
          default_args=default_args,
          schedule_interval= '3 6 * * *'
          ) as dag:
 
-
 # Tasks definitions 
 
     # Communicate process start 
-    print_start = BashOperator(task_id='Print_info',
-                               bash_command='echo "I am inserting / updating data from tables in oltplifesource into oltplifestaging "')
+    print_insertintostagingtables = BashOperator(task_id='Print_info',
+                               bash_command='echo "I am inserting / updating data into staging table(s) in oltplifestaging from oltplifesources"')
 
     # Execute sql code from file 
-    exe_feedstagingtablesfromsource = MsSqlOperator(
-       task_id="feed_staging_tables_from_source",
+    exe_createandfeedtablesfromsources = MsSqlOperator(
+       task_id="create_table_from_external_file",
        mssql_conn_id="airflow_mssql_f",
        # T-SQL file - path relative to DAG
-       sql="C2_insertSourceTablesIntoStagingTables.sql",
+       sql="C2_insertDataFromOltplifesourcesDboDimIntoOltplifeStaging.sql",
        dag=dag,
      )
 
@@ -51,10 +48,9 @@ with DAG('C2_insertSourceTablesIntoStagingTables',
                                bash_command='echo "Task executed"')
 
 
-
 # Dependencies - Sequence
 
-print_start >> exe_feedstagingtablesfromsource >> print_result
+print_insertintostagingtables >> exe_createandfeedtablesfromsources >> print_result
 
 
 

@@ -17,14 +17,14 @@ from airflow.providers.microsoft.mssql.operators.mssql import MsSqlOperator
 
 default_args = {
     'owner': 'life',
-    'start_date': dt.datetime(2023, 7, 7),
+    'start_date': dt.datetime(2023, 7, 18),
     'retries': 1, #the number of retries that should be performed before failing the task
     'retry_delay': dt.timedelta(minutes=1), # delay between retries
 }
 
 # Passing arguments to DAG, set run interval, define tasks with operators (Bash/Python) and relations among them    
 
-with DAG('C1_insertDataIntoDimSourceTables_from_csvs',
+with DAG('C1_insertDataIntoOltplifesourcesDimSourceTables_from_csvs',
          default_args=default_args,
          schedule_interval= '2 6 * * *'
          ) as dag:
@@ -40,7 +40,7 @@ with DAG('C1_insertDataIntoDimSourceTables_from_csvs',
        task_id="create_table_from_external_file",
        mssql_conn_id="airflow_mssql_f",
        # T-SQL file - path relative to DAG
-       sql="C1_insertDataIntoDimSourceTables_from_csvs.sql",
+       sql="C1_insertDataIntoOltplifesourcesDimSourceTables_from_csvs.sql",
        dag=dag,
      )
 

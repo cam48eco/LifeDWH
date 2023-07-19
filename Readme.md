@@ -124,10 +124,15 @@ The process has been developed in SSMS (see below).
 
 ![OltpLogo](https://github.com/cam48eco/LifeDWH/blob/main/img/CreateOLTP.png)
 
+In addition, apart from the default SQL Server .dbo schema, an additional schema .dim has been created. 
+
+![OltpLogo](https://github.com/cam48eco/LifeDWH/blob/main/img/CreateSchema.png)
+
+
 
 **'Sources database' tables creation and data fetching** 
 
-Creation and fetching source database tables with observations data (126 tables) and information on communities (1 table) from the csv's is conducted with two separate Airflow tasks (daily executed to catch possible changes in any of 126 tables; the information on communities table is fixed), using DAG with [mssql operator](https://airflow.apache.org/docs/apache-airflow-providers-microsoft-mssql/stable/operators.html), allowing the execution of SQL server queries on the database. 
+Creation and fetching source database tables in schema .dbo with observations data (126 tables) and information on communities in schema .dim (1 table) from the csv's is conducted with two separate Airflow tasks (daily executed to catch possible changes in any of the tables), using DAGs with [mssql operator](https://airflow.apache.org/docs/apache-airflow-providers-microsoft-mssql/stable/operators.html), allowing the execution of SQL server queries on the database. 
 
 The core of the approach are T-SQL scripts, focused not only on the initial tables creation and fetching, but enabling database tables update (with duplications preventing), as well. As the T-SQL codes are long, they have been not included into respective DAGs: [first](https://github.com/cam48eco/LifeDWH/tree/main/dags/C0_dblife_insertDataIntoSourceTables.py) (for observations) and [second](https://github.com/cam48eco/LifeDWH/tree/main/dags/C0_dblife_insertDataIntoDimSourceTables.py) (for communities), but the approach to execute separate sql files: [first](https://github.com/cam48eco/LifeDWH/tree/main/dags/C0_insertDataIntoSourceTables_from_csvs.sql) and [second](https://github.com/cam48eco/LifeDWH/tree/main/dags/C0_insertDataIntoDimSourceTables_from_csvs.sql) from within DAGs has been chosen (see DAGs line 42), what makes  DAGs code more clear. 
 Above mentioned approach was assumed for entire solution and all separated sql files with T-SQL scripts (toghetger with DAgs) are stored [here](https://github.com/cam48eco/LifeDWH/tree/main/dags). 
@@ -147,13 +152,13 @@ In result, the relevant option appeared in Airflow in Admin -> Connections panel
 
 #### 2.1.3. 'Staging database' and its tables creation with fetching with data transformed from 'Sources database' 
 
-The staging database (oltplifestaging) has been designed in particular for the case if in the future the new, real time data as data sources will appear. In that case, this information should be especially transformed / aggregated before being used for dimensions extraction and data warehouse feeding, and - after this - droppped from the 'Sources database' to avoid inefficient use of disk space (according to bucket philosophy - retention policy for database). 
+The staging database (oltplifestaging) has been designed to support transformations of data from 'source' stage before being used for dimensions extraction and data warehouse feeding. In particular, this functionality will be useful in the future, when new, real time data as data sources will appear. In that case, these data should be especially transformed / aggregated before and - after data warehouse feeding - droppped from the 'Sources database' to avoid inefficient use of disk space (according to bucket philosophy - retention policy for database). 
 
 ![OltpLogo](https://github.com/cam48eco/LifeDWH/blob/main/img/CreateOLTPstaging.png)
 
-According to above mentioned assumptions, in the case of tables with data on: observations and communities, the respective tables in oltplifestaging are feeded with tables from oltplifesources database with respective DAGs with minor transformations.
-In the case of other sources (above mentioned real data, etc.) additional, respective DAGs will be elaborated to transform the data from oltplifesources when transfering to respective tables in oltplifestaging. 
-The assumptions for the processes connected with this solution have been elaborated and presented [here](https://github.com/cam48eco/LifeDWH/blob/main/img/sources_with_RT.svg). 
+According to above mentioned assumptions, in the case of tables with data on: observations and communities, the respective tables in oltplifestaging are feeded with tables from oltplifesources database with respective DAGs with some minor transformations.
+As mentioned above, in the future, in the case of other sources as real time data appear, new, respective DAGs will be elaborated to transform the data from oltplifesources when transfering to respective tables in oltplifestaging. 
+The assumptions for the processes connected with this aspects have been elaborated and presented [here](https://github.com/cam48eco/LifeDWH/blob/main/img/sources_with_RT.svg). 
 
 
 
