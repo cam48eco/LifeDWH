@@ -156,7 +156,7 @@ The staging database (oltplifestaging) has been designed to support transformati
 
 ![OltpLogo](https://github.com/cam48eco/LifeDWH/blob/main/img/CreateOLTPstaging.png)
 
-According to above mentioned assumptions, in the case of tables with data on: observations and communities, the respective tables in oltplifestaging are feeded with tables from oltplifesources database with respective DAGs with some minor transformations.
+According to above mentioned assumptions, in the case of tables with data on: observations and communities, the respective tables in oltplifestaging are feeded with tables from oltplifesources database with respective [DAG](C2_insertDataFromOltplifesourcesDboDimIntoOltplifeStaging.py) and accompanying [T-SQL](C2_insertDataFromOltplifesourcesDboDimIntoOltplifeStaging.sql) with some minor transformations.
 As mentioned above, in the future, in the case of other sources as real time data appear, new, respective DAGs will be elaborated to transform the data from oltplifesources when transfering to respective tables in oltplifestaging. 
 The assumptions for the processes connected with this aspects have been elaborated and presented [here](https://github.com/cam48eco/LifeDWH/blob/main/img/sources_with_RT.svg). 
 
