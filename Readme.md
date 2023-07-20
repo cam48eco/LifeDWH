@@ -13,6 +13,7 @@ The solution' architecture follows these limitations, however the implemented ap
 ## Stack
 
 - Windows 10
+- Google Drive
 - SQL Server 2017 
 - SSMS 17.9.1
 - Airflow under Debian (in Win10 environment; setup see [info](https://www.freecodecamp.org/news/install-apache-airflow-on-windows-without-docker/))
@@ -52,60 +53,24 @@ In result, 33 .csv files have been created and filled with data (depending on th
 
 Data included in the csv files covers various timespans and geographical scope, dependent on the variables. 
 
-All above mentioned .csv files are stored in relevant directory of this repository [(see here)](https://github.com/cam48eco/LifeDWH/tree/main/data/observations). The data are reviewed and updated periodically (at least once per month) manually. In case the new observations are detected by research team in existing data sources, the relevant .csv file is updated in the repository. 
+All above mentioned .csv files are stored on Google Drive, publicly available [(see here)](https://drive.google.com/drive/folders/1vit8l2RQdz1xgrHEYeqUuz4MB73s53G5). The data are reviewed and updated periodically (at least once per month) manually. In case the new observations are detected by research team in existing data sources, the relevant .csv file is updated in the repository. 
 In case if the new flat data source with new data would appear, the new .csv file would be created and pushed into the repository.
+Primarily, the repository has been stored on github, but eventually, the Google Drive has been choosen as a storage. 
 
-An additional data source is a s_multi_dimension_gmina.csv file with data describing features of each out of 93 communities. The file is stored in [separate directory](https://github.com/cam48eco/LifeDWH/tree/main/data/communities). 
+An additional data source is a s_multi_dimension_gmina.csv file with data describing features of each out of 93 communities. The file is stored in [separate directory](https://drive.google.com/drive/folders/1zJvBEfYQirQH3WtjSt_KS_GfFxMSXXqo). 
+
+Every day, two above mentioned Google Drive folders are migrated into on-premise computer with the [first DAG of Airflow](https://github.com/cam48eco/LifeDWH/blob/main/dags/C_PythonRetrieveFoldersPreSourceDataFromGoogleSheets.py) - "RetrieveFoldersPreSourceDataFromGoogleSheets", with the aim to be serve as a prerequisite for next steps of pipeline and ETL.  
 
 ## II. ETL and Data warehouse design and implementation
 
 
 ### 2.1. Preparatory tasks  
 
-#### 2.1.1. Data transformation 
+#### 2.1.1. First data transformation 
 
-For the use of data included in the 33 csv files with initial data (excluding s_multi_dimension_gmina.csv) for data warehouse purposes, it was neccessary to conduct an additional transformation to receive a separate tables in separate .csv files for each of the variables, adding the variable name as a name of newly created csv file. To avoid time-consumig work during this job, the script in python (see below) has been implemented, to automatize the process of creation of separate file for each variable. 
+For the use of data included in the 33 csv files with initial data (excluding s_multi_dimension_gmina.csv) for data warehouse purposes, it is  neccessary to conduct an additional transformation to receive a separate .csvs for each of the variables, present in the files (majority out of 33 files includes data on more than one variable), naming the newly created csv file after the variable name. To avoid time-consumig work during this job, and to automate it, the script in python (see below) has been prepared and integrated in the [next DAG](https://github.com/cam48eco/LifeDWH/blob/main/dags/C_PythonTransformFolderPreResourceDataIntoSplit.py) - "C_PythonTransformFolderPreResourceDataIntoSplit". 
 
-```python 
-import pandas as pd
-import os 
-
-# Create list of csv files with data indicating directory where the files are stored  
-
-datafilelist = os.listdir('D:\Path\To\csv\files')
-
-# Create intial dataframe (from the first csv dataset) with columns: 'community names' and 'dates of observation'
-
-dftemp = pd.read_csv('D:\Path\To\csv\files\{}'.format(datafilelist[1]), sep = ";")  
-dftemp =  dftemp[['gmina_name', 'date']]
-
-# Splitting data from every .csv file from columns to separate csv files - one for each variable  
-# In result 33 .csv files will be transformed into 126 separate .csv files (each file for separate variable, the filename named after variable, unified structure). 
-
-
-def splitingfile():
-    # Iterate over every file in the directory with .csv files 
-    for element in datafilelist:
-        if 'csv' in element:
-            # Read .csv as dataframe 
-            datafile = pd.read_csv('D:\Path\To\csv\files\{}'.format(element), sep = ";")  
-            # Get number of columns in the csv file 
-            nbcolums = datafile.shape[1]
-            # First two columns ("0" and "1") are:  'community names' ("0") and 'years of observation' ("1")
-            # Variables values are stored in column(s) "2" and next.   
-            # Therefore iterate over colums with variables values (with number "2" or over) 
-            for i in range(2, nbcolums):
-                # Concatenate dftemp with every column with variables values from csv file 
-                newfiletemp = pd.concat([dftemp, datafile.iloc[:, [i]]], axis = 1)
-                # Rename name of column with values into 'value' 
-                newfiletemp.columns = newfiletemp.columns.str.replace(str(newfiletemp.columns[2]), 'value')
-                # Write the dataframe into separate file naming file according to variable name
-                newfiletemp.to_csv('D:\Path\To\csv\files\AfterSplit\{}.csv'.format(datafile.columns[i]), sep = ";", index=False) 
-
-splitingfile()
-
-```
-In result 33 files with initial data were transformed into 126 separate csv files (each file for separate variable, the filename named after variable, unified structure: three columns: "gmina_name", "date" and "value"), and stored in separated part of this repository [here](https://github.com/cam48eco/LifeDWH/tree/main/data/observationssplit). The process is repeated every time when at least one, from the initial 33 files with data, is changing.  
+In result, 33 files with initial, after migration from Google Drive on the on-premise device, are transformed and stored on this device ias 126 separate csv files (each file for separate variable, the filename named after variable, unified structure: three columns: "gmina_name", "date" and "value"). , and stored in separated part of this repository [here](https://github.com/cam48eco/LifeDWH/tree/main/data/observationssplit). In the future, the process will be repeated every time when it will be detected that at least one, from the initial 33 files with data, is changing, with the use of SensorOperator of Airflow; at the moment, the transformation from 33 into 126 files is conducted automatically after first DAG (33 csv files retrieval from Google Drive). 
 
  
 #### 2.1.2. Creation and feeding of 'sources database' for storing 'transactional' data 
@@ -134,10 +99,17 @@ In addition, apart from the default SQL Server .dbo schema, an additional schema
 
 Creation and fetching source database tables in schema .dbo with observations data (126 tables) and information on communities in schema .dim (1 table) from the csv's is conducted with two separate Airflow tasks (daily executed to catch possible changes in any of the tables), using DAGs with [mssql operator](https://airflow.apache.org/docs/apache-airflow-providers-microsoft-mssql/stable/operators.html), allowing the execution of SQL server queries on the database. 
 
-The core of the approach are T-SQL scripts, focused not only on the initial tables creation and fetching, but enabling database tables update (with duplications preventing), as well. As the T-SQL codes are long, they have been not included into respective DAGs: [first](https://github.com/cam48eco/LifeDWH/tree/main/dags/C0_dblife_insertDataIntoSourceTables.py) (for observations) and [second](https://github.com/cam48eco/LifeDWH/tree/main/dags/C0_dblife_insertDataIntoDimSourceTables.py) (for communities), but the approach to execute separate sql files: [first](https://github.com/cam48eco/LifeDWH/tree/main/dags/C0_insertDataIntoSourceTables_from_csvs.sql) and [second](https://github.com/cam48eco/LifeDWH/tree/main/dags/C0_insertDataIntoDimSourceTables_from_csvs.sql) from within DAGs has been chosen (see DAGs line 42), what makes  DAGs code more clear. 
+The core of the approach are T-SQL scripts, focused not only on the initial tables creation and fetching, but enabling database tables update (with duplications preventing), as well. As the T-SQL codes are long, they have been not included into respective DAGs: 
+- [first](https://github.com/cam48eco/LifeDWH/tree/main/dags/C0_dblife_insertDataIntoSourceTables.py) - responsible for fetching the oltpsources database, schema 'dbo', with 126 tables with 'observations'
+- [second](https://github.com/cam48eco/LifeDWH/tree/main/dags/C0_dblife_insertDataIntoDimSourceTables.py) - responsible for fetching the oltpsources database, schema 'dim', with 1 table with 'communities' details. 
+
+,but each DAG, has been supplemented by relevant t-sql file, to ensure the clarity: 
+- at [first case:](https://github.com/cam48eco/LifeDWH/tree/main/dags/C0_insertDataIntoSourceTables_from_csvs.sql) for fetching oltplife tables with observations, 
+- at [second case:](https://github.com/cam48eco/LifeDWH/tree/main/dags/C0_insertDataIntoDimSourceTables_from_csvs.sql) for fetching oltplife tables with communities details.  
+
 Above mentioned approach was assumed for entire solution and all separated sql files with T-SQL scripts (toghetger with DAgs) are stored [here](https://github.com/cam48eco/LifeDWH/tree/main/dags). 
 
-"Import flat files" feature present in SSMS was not useful to achieve above mentioned resuls, as it serves only single files. SSMS Express version, used for this solution, does not include task scheduling feature with SQL Server Job Agent, so preparation of dedicated T-SQL code and matching it with Airflow was neccessary. Another option, to consider in the future is to deploy [SQL Server triggers](https://learn.microsoft.com/en-us/sql/t-sql/statements/create-trigger-transact-sql?view=sql-server-ver16). 
+It has to be mentioned, that "Import flat files" feature present in SSMS was not useful to achieve above mentioned resuls, as it serves only single files while migrating into SQL Server database. In addition, SSMS Express version, used for this solution, does not include task scheduling feature with SQL Server Job Agent, so preparation of dedicated T-SQL code and matching it with Airflow was neccessary. Another option, to consider in the future is to deploy [SQL Server triggers](https://learn.microsoft.com/en-us/sql/t-sql/statements/create-trigger-transact-sql?view=sql-server-ver16). 
 
 It has to be mentioned, that to ensure proper execution of connection between Airflow and SQL Server, it was neccessary to supplement Airflow with the relevant plugin enabling MsSqlOperator. For this purpose, provision following command in CMD was neccessary:
 
