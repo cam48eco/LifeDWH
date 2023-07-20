@@ -105,12 +105,12 @@ In addition, apart from the default SQL Server .dbo schema (for 'observations' t
 Creation and fetching source database tables in schema .dbo with 'observations' data (126 tables) and information on 'communities' in .dim schema (1 table) from the csv's is conducted with two separate Airflow tasks (daily executed to catch possible changes in any of the tables), using DAGs with [mssql operator](https://airflow.apache.org/docs/apache-airflow-providers-microsoft-mssql/stable/operators.html), allowing the execution of SQL server queries on the database. 
 
 The core of the approach are T-SQL scripts, focused not only on the initial tables creation and fetching, but enabling database tables update (with duplications preventing), as well. As the T-SQL codes are long, they have been not included into respective DAGs: 
-- [first](https://github.com/cam48eco/LifeDWH/tree/main/dags/C0_dblife_insertDataIntoSourceTables.py) - responsible for fetching the oltpsources database, schema 'dbo', with 126 tables with 'observations'
-- [second](https://github.com/cam48eco/LifeDWH/tree/main/dags/C0_dblife_insertDataIntoDimSourceTables.py) - responsible for fetching the oltpsources database, schema 'dim', with 1 table with 'communities' details. 
+- [first](https://github.com/cam48eco/LifeDWH/blob/main/dags/C0_insertDataIntoOltplifesourcesDboSourceTables_from_csvs.py) - responsible for fetching the oltpsources database, schema 'dbo', with 126 .csv tables with 'observations'
+- [second](https://github.com/cam48eco/LifeDWH/blob/main/dags/C1_insertDataIntoOltplifesourcesDimSourceTables_from_csvs.py) - responsible for fetching the oltpsources database, schema 'dim', with 1 .csv table with 'communities' details. 
 
-Each DAG is supplemented by relevant t-sql file, to ensure the clarity: 
-- [T-sql script for first case:](https://github.com/cam48eco/LifeDWH/tree/main/dags/C0_insertDataIntoSourceTables_from_csvs.sql) for fetching oltplife tables with observations, 
-- at [T-sql script for second case:](https://github.com/cam48eco/LifeDWH/tree/main/dags/C0_insertDataIntoDimSourceTables_from_csvs.sql) for fetching oltplife table with communities details.  
+,but each DAG is supplemented by relevant t-sql file, to ensure the clarity: 
+- [T-sql script for first case:](https://github.com/cam48eco/LifeDWH/blob/main/dags/C0_insertDataIntoOltplifesourcesDboSourceTables_from_csvs.sql) for fetching oltplife tables with observations, 
+- at [T-sql script for second case:](https://github.com/cam48eco/LifeDWH/blob/main/dags/C1_insertDataIntoOltplifesourcesDimSourceTables_from_csvs.sql) for fetching oltplife table with communities details.  
 
 Above mentioned approach was assumed for entire solution; all DAGs with accompanying T-SQL scripts are stored [here](https://github.com/cam48eco/LifeDWH/tree/main/dags). 
 
@@ -135,7 +135,7 @@ The special case, will be - if appears - the neccessity to drop (after transform
 
 ![OltpLogo](https://github.com/cam48eco/LifeDWH/blob/main/img/CreateOLTPstaging.png)
 
-According to above mentioned assumptions, in the case of tables with data on: 'observations' and 'communities', the tables in oltplifestaging are feeded with tables from oltplifesources database with respective [DAG and accompanying T-SQL (C2)](https://github.com/cam48eco/LifeDWH/tree/main/dags) with some minor transformations.
+According to above mentioned assumptions, in the case of tables with data on: 'observations' and 'communities', the tables in oltplifestaging are feeded with tables from oltplifesources database with respective [DAG](https://github.com/cam48eco/LifeDWH/blob/main/dags/C2_insertDataFromOltplifesourcesDboDimIntoOltplifeStaging.py) and accompanying [T-SQL](https://github.com/cam48eco/LifeDWH/blob/main/dags/C2_insertDataFromOltplifesourcesDboDimIntoOltplifeStaging.sql) with some minor transformations.
 As mentioned above, in the future, in the case of other sources as real time data appear, new, respective DAGs will be elaborated to transform the data from oltplifesources when transfering to respective tables in oltplifestaging. 
 The assumptions for the processes connected with this aspects have been elaborated and presented [here](https://github.com/cam48eco/LifeDWH/blob/main/img/sources_with_RT.svg). 
 
