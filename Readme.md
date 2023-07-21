@@ -61,7 +61,9 @@ Primarily, the repository has been stored on github, but eventually, the Google 
 
 An additional data source is a s_multi_dimension_gmina.csv file with data describing features of each out of 93 communities. The file is stored in [separate directory](https://drive.google.com/drive/folders/1zJvBEfYQirQH3WtjSt_KS_GfFxMSXXqo). 
 
-Every day two above mentioned Google Drive folders ('observations', 'communities') are migrated into on-premise machine with the [first  Airflow DAG](https://github.com/cam48eco/LifeDWH/blob/main/dags/C_PythonRetrieveFoldersPreSourceDataFromGoogleSheets.py) - "RetrieveFoldersPreSourceDataFromGoogleSheets", with the aim to serve as a prerequisite for next steps of pipeline and eventually, ETL.  
+Every day two above mentioned Google Drive folders ('observations', 'communities') are migrated into on-premise machine with the [first  Airflow DAG](https://github.com/cam48eco/LifeDWH/blob/main/dags/C1_retrieveFoldersPreSourceDataFromGoogleSheets.py) - "RetrieveFoldersPreSourceDataFromGoogleSheets", with the aim to serve as a prerequisite for next steps of pipeline and eventually, ETL.  
+The choice of Google Drive was connected with the idea to avoid registration of the project and charges (for example at GCP, where 'enable billing' option should be activated in this case). 
+Eventually, Google Drive along with the library of [gdown](https://github.com/wkentaro/gdown) supporting DAG' retrieving fuction has been choosen, as it enables retrieval of files (and folders) without strong size restictions, what can be a of importance in the future. 
 
 ## II. ETL and Data warehouse design and implementation
 
@@ -70,11 +72,11 @@ Every day two above mentioned Google Drive folders ('observations', 'communities
 
 #### 2.1.1. First data transformation 
 
-For the use of data included in the 33 csv files with initial data (excluding s_multi_dimension_gmina.csv) for data warehouse purposes, it is  neccessary to conduct an additional transformation to receive a separate .csvs for each of the variables, present in the files (majority out of 33 files includes data on more than one variable), naming the newly created csv file after the variable name. To avoid time-consumig work during this job, and to automate it, the script in python (see below) has been prepared and integrated in the [next DAG](https://github.com/cam48eco/LifeDWH/blob/main/dags/C_PythonTransformFolderPreResourceDataIntoSplit.py) - "C_PythonTransformFolderPreResourceDataIntoSplit". 
+For the use of data included in the 33 csv files with initial data (excluding s_multi_dimension_gmina.csv) for data warehouse purposes, it is  neccessary to conduct an additional transformation to receive a separate .csvs for each of the variables, present in the files (majority out of 33 files includes data on more than one variable), naming the newly created csv file after the variable name. To avoid time-consumig work during this job, and to automate it, the script in python (see below) has been prepared and integrated in the [next DAG](https://github.com/cam48eco/LifeDWH/blob/main/dags/C2_transformFolderPreResourceDataIntoSplit.py) - "C_PythonTransformFolderPreResourceDataIntoSplit". 
 
-In result, 33 files with 'observations', after migration from Google Drive to the on-premise device, are transformed (splitted) and stored on this device in 'observations' directory as 126 separate csv files (each file for separate variable, the filename named after variable, unified structure: three columns: "gmina_name", "date" and "value"). The example of the directory  is presented, in addition in this repository [here](https://github.com/cam48eco/LifeDWH/tree/main/data/observationssplit). 
+In result, 33 files with 'observations', after migration from Google Drive to the on-premise device, are transformed (splitted) and stored on local device in 'observations' directory as 126 separate csv files (each file for separate variable, the filename named after variable, unified structure: three columns: "gmina_name", "date" and "value"). The example of the directory  is presented, in addition in this repository [here](https://github.com/cam48eco/LifeDWH/tree/main/data/observationssplit). 
 In the future, the process of transformation of 33 'observation' files into splitted 126 files will be repeated every time when the change of at least one of 33 files will be detected (with the use of Airflow' SensorOperator). 
-At the moment, the transformation from 33 into 126 files is conducted automatically after first DAG (33 csv files retrieval from Google Drive) is completed. 
+At the moment, the transformation from 33 into 126 files is conducted automatically (timespan of 4 minutes) after first DAG (33 csv files retrieval from Google Drive) is completed. 
 
  
 #### 2.1.2. Creation and feeding of 'sources database' for storing 'transactional' data 
@@ -105,12 +107,12 @@ In addition, apart from the default SQL Server .dbo schema (for 'observations' t
 Creation and fetching source database tables in schema .dbo with 'observations' data (126 tables) and information on 'communities' in .dim schema (1 table) from the csv's is conducted with two separate Airflow tasks (daily executed to catch possible changes in any of the tables), using DAGs with [mssql operator](https://airflow.apache.org/docs/apache-airflow-providers-microsoft-mssql/stable/operators.html), allowing the execution of SQL server queries on the database. 
 
 The core of the approach are T-SQL scripts, focused not only on the initial tables creation and fetching, but enabling database tables update (with duplications preventing), as well. As the T-SQL codes are long, they have been not included into respective DAGs: 
-- [first](https://github.com/cam48eco/LifeDWH/blob/main/dags/C0_insertDataIntoOltplifesourcesDboSourceTables_from_csvs.py) - responsible for fetching the oltpsources database, schema 'dbo', with 126 .csv tables with 'observations'
-- [second](https://github.com/cam48eco/LifeDWH/blob/main/dags/C1_insertDataIntoOltplifesourcesDimSourceTables_from_csvs.py) - responsible for fetching the oltpsources database, schema 'dim', with 1 .csv table with 'communities' details. 
+- [first](https://github.com/cam48eco/LifeDWH/blob/main/dags/C4_insertDataIntoOltplifesourcesDboSourceTables_from_csvs.py) - responsible for fetching the oltpsources database, schema 'dbo', with 126 .csv tables with 'observations'
+- [second](https://github.com/cam48eco/LifeDWH/blob/main/dags/C3_insertDataIntoOltplifesourcesDimSourceTables_from_csvs.py) - responsible for fetching the oltpsources database, schema 'dim', with 1 .csv table with 'communities' details. 
 
 ,but each DAG is supplemented by relevant t-sql file, to ensure the clarity: 
-- [T-sql script for first case:](https://github.com/cam48eco/LifeDWH/blob/main/dags/C0_insertDataIntoOltplifesourcesDboSourceTables_from_csvs.sql) for fetching oltplife tables with observations, 
-- at [T-sql script for second case:](https://github.com/cam48eco/LifeDWH/blob/main/dags/C1_insertDataIntoOltplifesourcesDimSourceTables_from_csvs.sql) for fetching oltplife table with communities details.  
+- [T-sql script for first case:](https://github.com/cam48eco/LifeDWH/blob/main/dags/C4_insertDataIntoOltplifesourcesDboSourceTables_from_csvs.sql) for fetching oltplife tables with observations, 
+- at [T-sql script for second case:](https://github.com/cam48eco/LifeDWH/blob/main/dags/C3_insertDataIntoOltplifesourcesDimSourceTables_from_csvs.sql) for fetching oltplife table with communities details.  
 
 Above mentioned approach was assumed for entire solution; all DAGs with accompanying T-SQL scripts are stored [here](https://github.com/cam48eco/LifeDWH/tree/main/dags). 
 
@@ -135,7 +137,7 @@ The special case, will be - if appears - the neccessity to drop (after transform
 
 ![OltpLogo](https://github.com/cam48eco/LifeDWH/blob/main/img/CreateOLTPstaging.png)
 
-According to above mentioned assumptions, in the case of tables with data on: 'observations' and 'communities', the tables in oltplifestaging are feeded with tables from oltplifesources database with respective [DAG](https://github.com/cam48eco/LifeDWH/blob/main/dags/C2_insertDataFromOltplifesourcesDboDimIntoOltplifeStaging.py) and accompanying [T-SQL](https://github.com/cam48eco/LifeDWH/blob/main/dags/C2_insertDataFromOltplifesourcesDboDimIntoOltplifeStaging.sql) with some minor transformations.
+According to above mentioned assumptions, in the case of tables with data on: 'observations' and 'communities', the tables in oltplifestaging are feeded with tables from oltplifesources database with respective [DAG](https://github.com/cam48eco/LifeDWH/blob/main/dags/C5_insertDataFromOltplifesourcesIntoOltplifeStaging.py) and accompanying [T-SQL](https://github.com/cam48eco/LifeDWH/blob/main/dags/C5_insertDataFromOltplifesourcesIntoOltplifeStaging.sql) with some minor transformations.
 As mentioned above, in the future, in the case of other sources as real time data appear, new, respective DAGs will be elaborated to transform the data from oltplifesources when transfering to respective tables in oltplifestaging. 
 The assumptions for the processes connected with this aspects have been elaborated and presented [here](https://github.com/cam48eco/LifeDWH/blob/main/img/sources_with_RT.svg). 
 
