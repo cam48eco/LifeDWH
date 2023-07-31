@@ -28,7 +28,7 @@ def retrievecommunitiesdatafromgoogle ():
 # Arguments for DAG
 
 default_args = {
-    'owner': 'pawel',
+    'owner': 'life',
     'start_date': dt.datetime(2023, 7, 20),
     'retries': 1, #the number of retries that should be performed before failing the task
     'retry_delay': dt.timedelta(minutes=1), # delay between retries

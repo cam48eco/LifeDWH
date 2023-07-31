@@ -13,7 +13,7 @@ from airflow.operators.python_operator import PythonOperator
 # DAG definition - DAG with branching task
 
 default_args = {
-    'owner': 'pawel',
+    'owner': 'life',
     'retries': 1, #the number of retries that should be performed before failing the task
     'retry_delay': dt.timedelta(minutes=1), # delay between retries
 }
