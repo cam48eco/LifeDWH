@@ -145,8 +145,8 @@ The assumptions for the processes connected with this aspects have been elaborat
 ## III. Dimensions tables and Fact table 
 
 The last stage was focused on preparation of dimensions tables and first fact table (for population on catchment area). The core of the solution was, apart from preparation of relevant DAG (for task C6) to be executed after C5 Task (feeding staging database) the T-SQL code, with:
-- script for dimension tables creation and feed [C6] (https://github.com/cam48eco/LifeDWH/blob/main/dags/C6_Create_Feed_DimTables.sql)
-- script for fact table creation and feed [C7] (https://github.com/cam48eco/LifeDWH/blob/main/dags/C7_Create_Feed_FactTables.sql).
+- script for dimension tables creation and feed [C6](https://github.com/cam48eco/LifeDWH/blob/main/dags/C6_Create_Feed_DimTables.sql)
+- script for fact table creation and feed [C7](https://github.com/cam48eco/LifeDWH/blob/main/dags/C7_Create_Feed_FactTables.sql).
 
 
 
